@@ -1,0 +1,51 @@
+.card-stats {
+    border-radius: 10px; /* Slightly rounded corners */
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Moderate shadow for depth */
+    padding: 1.25rem; /* Slightly increased padding */
+}
+
+.card-bodyq {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem; /* Slightly reduced padding for balance */
+}
+
+.col-stats {
+    flex: 1; /* Take up remaining space */
+}
+
+.col-icon {
+    flex-shrink: 0; /* Prevent the icon from shrinking */
+    margin-left: auto; /* Pushes the icon to the right */
+}
+
+.icon-big {
+    width: 50px; /* Moderate icon size */
+    height: 50px; /* Moderate icon size */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px; /* Moderate icon font size */
+    color: white;
+}
+
+.icon-primary { background-color: #007bff; }
+.icon-info { background-color: #17a2b8; }
+.icon-success { background-color: #28a745; }
+.icon-warning { background-color: #ffc107; }
+.icon-danger { background-color: #dc3545; }
+
+.card-category {
+    font-size: 0.9rem; /* Slightly increased font size */
+    color: #6c757d; /* Change this to match your theme */
+    margin: 0;
+}
+
+.card-title {
+    font-size: 1.4rem; /* Slightly increased font size */
+    font-weight: 600;
+    margin: 0;
+    color: #343a40; /* Change this to match your theme */
+}
