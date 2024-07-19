@@ -1,13 +1,23 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
-    <!-- Breadcrumbs -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Transaksi</li>
-        </ol>
-    </nav>
+   <!-- Breadcrumbs -->
+    <!-- Page Title -->
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <div class="page-title mb-4 pt-5">
+                <h1 class="fw-bold">Transaksi</h1>
+            </div>
+        </div>
+        <div class="col pt-4">
+            <nav aria-label="breadcrumb ">
+                <ol class="breadcrumb float-end">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Transaksi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 
     <!-- Page Title -->
     <div class="container-fluid">
@@ -144,8 +154,8 @@
             </div>
         </div>
         {{-- End Modal Tambah --}}
-    @endsection
-    @push('js')
+
+        @push('js')
         <script>
             document.querySelector('form').addEventListener('submit', function(event) {
                 var photosInput = document.getElementById('photos');
@@ -155,26 +165,6 @@
                 }
             });
         </script>
-        <script>
-            $(document).ready(function() {
-                $('#myTable').DataTable({
-                    // "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-                    "scrollX": true,
-                    "language": {
-                        "search": "",
-                        "searchPlaceholder": "Search...",
-                        "decimal": ",",
-                        "thousands": "."
-                    }
-                });
-                $(document).ready(function() {
-                    $('.dataTables_filter input[type="search"]').css({
-                        "marginBottom": "10px"
-                    });
-                    $('.dataTables_paginate ').css({
-                        "marginTop": "10px"
-                    });
-                });
-            });
-        </script>
     @endpush
+
+@endsection

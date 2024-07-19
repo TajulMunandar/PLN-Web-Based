@@ -33,16 +33,17 @@ class LoginController extends Controller
 
         $user = User::where('name', $credentials['name'])->first();
 
-        if ($user && $user->password === $credentials['password']) {
+        if ($user && $user->password === $credentials['password'] && $user->isAdmin == 1) {
             Auth::login($user);
             $request->session()->regenerate();
             return redirect()->route('dashboard.index');
         }
 
         return back()->withErrors([
-            'name' => 'The provided credentials do not match our records.',
+            'name' => 'The provided credentials do not match our records or you are not authorized.',
         ])->withInput($request->only('name'));
     }
+
 
     /**
      * Display the specified resource.

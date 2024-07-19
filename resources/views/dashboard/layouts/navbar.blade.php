@@ -1,5 +1,5 @@
-<header class="app-header">
-    <nav class="navbar navbar-expand-lg navbar-light">
+<header class="app-header" style="background-image: radial-gradient( circle farthest-corner at 92.3% 71.5%,  rgba(83,138,214,1) 0%, rgba(134,231,214,1) 90% );">
+    <nav class="navbar navbar-expand-lg " >
         <ul class="navbar-nav">
             <li class="nav-item d-block d-xl-none">
                 <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">

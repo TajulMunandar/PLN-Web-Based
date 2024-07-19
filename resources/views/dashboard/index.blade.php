@@ -2,15 +2,21 @@
 
 @section('content')
     <!-- Breadcrumbs -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-        </ol>
-    </nav>
     <!-- Page Title -->
-    <div class="page-title mb-4">
-        <h1 class="fw-bold">Dashboard</h1>
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <div class="page-title mb-4 pt-5">
+                <h1 class="fw-bold">Dashboard</h1>
+            </div>
+        </div>
+        <div class="col pt-4">
+            <nav aria-label="breadcrumb ">
+                <ol class="breadcrumb float-end">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                </ol>
+            </nav>
+        </div>
     </div>
 
     {{-- Quantity Card --}}
