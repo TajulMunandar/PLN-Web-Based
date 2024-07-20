@@ -19,6 +19,23 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
     <!-- Page Title -->
     <div class="container-fluid">
         <div class="card">
@@ -49,125 +66,155 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Surya</td>
-                                <td>Not Admin</td>
-                                <td>Surya@gmail.com</td>
-                                <td>Surya123</td>
-                                <td>08960345583</td>
-                                <td>TIK</td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal">
-                                        <i class="ti ti-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#modalHapus">
-                                        <i class="ti ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @foreach ($users as $index => $user)
+                                <tr>
+                                    <th>{{ $loop->iteration }}</th>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->isAdmin ? 'Admin' : 'Not Admin' }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td class="text-truncate">{{ $user->password }}</td>
+                                    <td>{{ $user->no_hp }}</td>
+                                    <td>{{ $user->instansi }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ $loop->iteration }}">
+                                            <i class="ti ti-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#modalHapus{{ $loop->iteration }}">
+                                            <i class="ti ti-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
 
-                            <!-- Modal Edit -->
-                            <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5">Edit User</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form action="" method="post">
-                                            <div class="modal-body">
+                                <!-- Modal Edit -->
+                                <div class="modal fade" id="editModal{{ $loop->iteration }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5">Edit User</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form action="{{ route('user.update', $user->id) }}" method="post">
                                                 @csrf
-                                                <div class="mb-3">
-                                                    <label for="nama" class="form-label">Nama</label>
-                                                    <input type="text"
-                                                        class="form-control @error('nama') is-invalid @enderror"
-                                                        name="nama" id="nama" value="" autofocus required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="admin_status" class="form-label">Admin Status</label>
-                                                    <div>
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input @error('admin_status') is-invalid @enderror"
-                                                                type="radio" name="admin_status" id="admin_yes"
-                                                                value="1" required>
-                                                            <label class="form-check-label" for="admin_yes">
-                                                                Admin
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input @error('admin_status') is-invalid @enderror"
-                                                                type="radio" name="admin_status" id="admin_no"
-                                                                value="0" required>
-                                                            <label class="form-check-label" for="admin_no">
-                                                                Not Admin
-                                                            </label>
-                                                        </div>
+                                                @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="name" class="form-label">Nama</label>
+                                                        <input type="text"
+                                                            class="form-control @error('name') is-invalid @enderror"
+                                                            name="name" id="name"
+                                                            value="{{ old('name', $user->name) }}" autofocus required>
+                                                        @error('name')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
                                                     </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="alamat" class="form-label">Email</label>
-                                                    <input type="text"
-                                                        class="form-control @error('alamat') is-invalid @enderror"
-                                                        name="alamat" id="alamat" value="" autofocus required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="kabupaten" class="form-label">Password</label>
-                                                    <input type="text"
-                                                        class="form-control @error('kabupaten') is-invalid @enderror"
-                                                        name="kabupaten" id="kabupaten" value="" autofocus required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="jangka_sewa" class="form-label">No.HP</label>
-                                                    <input type="text"
-                                                        class="form-control @error('jangka_sewa') is-invalid @enderror"
-                                                        name="jangka_sewa" id="jangka_sewa" value="" autofocus
-                                                        required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="lokasi" class="form-label">Instansi</label>
-                                                    <input type="text"
-                                                        class="form-control @error('lokasi') is-invalid @enderror"
-                                                        name="lokasi" id="lokasi" value="" autofocus required>
+                                                    <div class="mb-3">
+                                                        <label for="isAdmin" class="form-label">Admin Status</label>
+                                                        <select class="form-select @error('isAdmin') is-invalid @enderror"
+                                                            name="isAdmin" id="isAdmin" required>
+                                                            <option value="" disabled>Select status</option>
+                                                            <option value="1" {{ $user->isAdmin ? 'selected' : '' }}>
+                                                                Admin</option>
+                                                            <option value="0" {{ !$user->isAdmin ? 'selected' : '' }}>
+                                                                Not Admin</option>
+                                                        </select>
+                                                        @error('isAdmin')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="email"
+                                                            class="form-control @error('email') is-invalid @enderror"
+                                                            name="email" id="email"
+                                                            value="{{ old('email', $user->email) }}" autofocus required>
+                                                        @error('email')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="password" class="form-label">Password</label>
+                                                        <input type="password"
+                                                            class="form-control @error('password') is-invalid @enderror"
+                                                            name="password" id="password" value="" autofocus>
+                                                        @error('password')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="no_hp" class="form-label">No. HP</label>
+                                                        <input type="text"
+                                                            class="form-control @error('no_hp') is-invalid @enderror"
+                                                            name="no_hp" id="no_hp"
+                                                            value="{{ old('no_hp', $user->no_hp) }}" autofocus required>
+                                                        @error('no_hp')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="instansi" class="form-label">Instansi</label>
+                                                        <input type="text"
+                                                            class="form-control @error('instansi') is-invalid @enderror"
+                                                            name="instansi" id="instansi"
+                                                            value="{{ old('instansi', $user->instansi) }}" autofocus
+                                                            required>
+                                                        @error('instansi')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Add</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Modal Hapus -->
-                            <div class="modal fade" id="modalHapus" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5">Hapus User</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            </form>
                                         </div>
-                                        <form action="" method="post" id="deleteForm">
-                                            <div class="modal-body">
-                                                <p>Apakah Anda yakin ingin menghapus divisi ini?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
+
+
+                                <!-- Modal Hapus -->
+                                <div class="modal fade" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5">Hapus User</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form action="{{ route('user.destroy', $user->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="modal-body">
+                                                    <p>Apakah Anda yakin ingin menghapus user ini?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -175,6 +222,7 @@
         </div>
 
         {{-- add Modal Tambah --}}
+        <!-- Add User Modal -->
         <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -182,57 +230,66 @@
                         <h1 class="modal-title fs-5">Tambah User</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="" method="post">
+                    <form action="{{ route('user.store') }}" method="post">
+                        @csrf
                         <div class="modal-body">
-                            @csrf
                             <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="nama" id="nama" value="" autofocus required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="admin_status" class="form-label">Admin Status</label>
-                                <div>
-                                    <div class="form-check">
-                                        <input class="form-check-input @error('admin_status') is-invalid @enderror"
-                                            type="radio" name="admin_status" id="admin_yes" value="1" required>
-                                        <label class="form-check-label" for="admin_yes">
-                                            Admin
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input @error('admin_status') is-invalid @enderror"
-                                            type="radio" name="admin_status" id="admin_no" value="0" required>
-                                        <label class="form-check-label" for="admin_no">
-                                            Not Admin
-                                        </label>
-                                    </div>
-                                </div>
+                                <label for="name" class="form-label">Nama</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" id="name" value="{{ old('name') }}" autofocus required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="alamat" class="form-label">Email</label>
-                                <input type="text" class="form-control @error('alamat') is-invalid @enderror"
-                                    name="alamat" id="alamat" value="" autofocus required>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    name="email" id="email" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="kabupaten" class="form-label">Password</label>
-                                <input type="text" class="form-control @error('kabupaten') is-invalid @enderror"
-                                    name="kabupaten" id="kabupaten" value="" autofocus required>
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    name="password" id="password" value="{{ old('password') }}" required>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="jangka_sewa" class="form-label">No.HP</label>
-                                <input type="text" class="form-control @error('jangka_sewa') is-invalid @enderror"
-                                    name="jangka_sewa" id="jangka_sewa" value="" autofocus required>
+                                <label for="no_hp" class="form-label">No.HP</label>
+                                <input type="text" class="form-control @error('no_hp') is-invalid @enderror"
+                                    name="no_hp" id="no_hp" value="{{ old('no_hp') }}" required>
+                                @error('no_hp')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="lokasi" class="form-label">Instansi</label>
-                                <input type="text" class="form-control @error('lokasi') is-invalid @enderror"
-                                    name="lokasi" id="lokasi" value="" autofocus required>
+                                <label for="instansi" class="form-label">Instansi</label>
+                                <input type="text" class="form-control @error('instansi') is-invalid @enderror"
+                                    name="instansi" id="instansi" value="{{ old('instansi') }}">
+                                @error('instansi')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Add</button>
+                            <div class="mb-3">
+                                <label for="isAdmin" class="form-label">Admin Status</label>
+                                <select class="form-select @error('isAdmin') is-invalid @enderror" name="isAdmin"
+                                    id="isAdmin" required>
+                                    <option value="" disabled selected>Select Admin Status</option>
+                                    <option value="1" {{ old('isAdmin') == '1' ? 'selected' : '' }}>Admin</option>
+                                    <option value="0" {{ old('isAdmin') == '0' ? 'selected' : '' }}>Not Admin
+                                    </option>
+                                </select>
+                                @error('isAdmin')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </div>
                     </form>
                 </div>

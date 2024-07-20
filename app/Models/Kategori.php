@@ -9,12 +9,12 @@ class Kategori extends Model
 {
     use HasFactory;
 
-    protected $table = 'foto_asets';
+    protected $table = 'kategoris';
 
     protected $guarded = ['id'];
 
     public function asset()
     {
-        return $this->belongsTo(Asset::class, 'id_aset');
+        return $this->belongsTo(Asset::class, 'id_asset');
     }
 }

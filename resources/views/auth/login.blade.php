@@ -37,10 +37,10 @@
                                     <div class="d-flex align-items-center justify-content-between mb-4">
                                         <a class="text-primary fw-bold" href="">Forgot Password?</a>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
+                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" href="">Sign In</button>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-bold">New to Modernize?</p>
-                                        <a class="text-primary fw-bold ms-2" href="{{ route('register') }}">Create an account</a>
+                                        <a class="text-primary fw-bold ms-2" href="">Create an account</a>
                                     </div>
                                 </form>
                             </div>

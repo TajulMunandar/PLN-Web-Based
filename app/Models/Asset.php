@@ -20,11 +20,11 @@ class Asset extends Model
 
     public function fotoAset()
     {
-        return $this->hasMany(FotoAsset::class, 'id_aset');
+        return $this->hasMany(FotoAsset::class, 'id_asset');
     }
 
     public function transaksi()
     {
-        return $this->hasMany(Transaksi::class, 'id_aset');
+        return $this->hasMany(Transaksi::class, 'id_asset');
     }
 }

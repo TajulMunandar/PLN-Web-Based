@@ -33,7 +33,7 @@ class LoginController extends Controller
 
         $user = User::where('name', $credentials['name'])->first();
 
-        if ($user && $user->password === $credentials['password'] && $user->isAdmin == 1) {
+        if ($user && $user->password === $credentials['password'] && $user->isAdmin == 0) {
             Auth::login($user);
             $request->session()->regenerate();
             return redirect()->route('dashboard.index');
@@ -42,6 +42,15 @@ class LoginController extends Controller
         return back()->withErrors([
             'name' => 'The provided credentials do not match our records or you are not authorized.',
         ])->withInput($request->only('name'));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 
 

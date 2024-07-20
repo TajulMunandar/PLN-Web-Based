@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('foto_assets', function (Blueprint $table) {
             $table->id();
             $table->string('foto');
-            $table->foreignId('id_asset')->constrained('assets')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('id_asset')
+                  ->constrained('assets')
+                  ->onDelete('cascade')  
+                  ->onUpdate('cascade');
             $table->timestamps();
         });
     }

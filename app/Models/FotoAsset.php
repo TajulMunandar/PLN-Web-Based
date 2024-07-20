@@ -11,12 +11,10 @@ class FotoAsset extends Model
 
     use HasFactory;
 
-    protected $table = 'kategoris';
-
     protected $guarded = ['id'];
 
     public function assets()
     {
-        return $this->hasMany(Asset::class, 'id_kategori');
+        return $this->hasMany(Asset::class, 'id_asset');
     }
 }

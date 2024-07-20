@@ -49,3 +49,9 @@
     margin: 0;
     color: #343a40; /* Change this to match your theme */
 }
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Adjust as needed */
+}

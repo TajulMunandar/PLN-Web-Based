@@ -55,6 +55,14 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('laporan.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-report"></i>
+                        </span>
+                        <span class="hide-menu">Laporan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('user.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-users"></i>
