@@ -9,13 +9,12 @@ class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaksis';
 
     protected $guarded = ['id'];
 
     public function asset()
     {
-        return $this->belongsTo(Asset::class, 'id_aset');
+        return $this->belongsTo(Asset::class, 'id_asset');
     }
 
     public function user()

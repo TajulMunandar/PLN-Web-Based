@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
-   <!-- Breadcrumbs -->
+    <!-- Breadcrumbs -->
     <!-- Page Title -->
     <div class="row d-flex align-items-center">
         <div class="col">
@@ -19,21 +19,29 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Page Title -->
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">Table Transaksi</h5>
 
-                <!--  Row 1 -->
-                <div class="row">
-                    <div class="col">
-                        <button class="btn btn-primary mb-3 p-10" type="button" data-bs-toggle="modal"
-                            data-bs-target="#tambahModal">
-                            <i class="ti ti-plus fs-3 me-1"></i>Tambah
-                        </button>
-                    </div>
-                </div>
+                <!-- Row 1 -->
                 <div class="row">
                     <table id="myTable" class="table table-striped" style="width:100%">
                         <thead>
@@ -50,121 +58,95 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>ASET 1</td>
-                                <td>Surya</td>
-                                <td>17 Juli 2020</td>
-                                <td>17 Juli 2020</td>
-                                <td>Bukti.Png</td>
-                                <td>Disetujui</td>
-                                <td>Telah Disetujui</td>
-                                <td>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal">
-                                        <i class="ti ti-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#modalHapus">
-                                        <i class="ti ti-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @foreach ($transaksis as $transaksi)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $transaksi->asset->nama }}</td>
+                                    <td>{{ $transaksi->user->name }}</td>
+                                    <td>{{ $transaksi->start }}</td>
+                                    <td>{{ $transaksi->end }}</td>
+                                    <td>{{ $transaksi->bukti }}</td>
+                                    <td>
+                                        @if ($transaksi->approve == 0)
+                                            Pending
+                                        @elseif ($transaksi->approve == 1)
+                                            Disetujui
+                                        @else
+                                            Ditolak
+                                        @endif
+                                    </td>
+                                    <td>{{ $transaksi->ket }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#approveModal{{ $transaksi->id }}">
+                                            <i class="fa-solid fa-square-check"></i> <!-- Updated icon -->
+                                        </button>
 
-                            <!-- Modal Edit -->
-                            <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5">Edit Kategori</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form action="" method="post">
-                                            <div class="modal-body">
+                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#declineModal{{ $transaksi->id }}">
+                                            <i class="fas fa-circle-xmark"></i> <!-- Updated icon -->
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Modal Approve -->
+                                <div class="modal fade" id="approveModal{{ $transaksi->id }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5">Approve Transaksi</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form action="{{ route('transaksi.approve', $transaksi->id) }}" method="POST">
                                                 @csrf
-                                                <div class="mb-3">
-                                                    <label for="nama" class="form-label">Nama Kategori</label>
-                                                    <input type="text"
-                                                        class="form-control @error('nama') is-invalid @enderror"
-                                                        name="nama" id="nama" value="" autofocus required>
+                                                <div class="modal-body">
+                                                    <p>Apakah Anda yakin ingin menyetujui transaksi ini?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Add</button>
+                                                    <button type="submit" class="btn btn-primary">Approve</button>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Modal Hapus -->
-                            <div class="modal fade" id="modalHapus" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5">Hapus User</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            </form>
                                         </div>
-                                        <form action="" method="post" id="deleteForm">
-                                            <div class="modal-body">
-                                                <p>Apakah Anda yakin ingin menghapus Kategori ini?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
+
+                                <!-- Modal Decline -->
+                                <div class="modal fade" id="declineModal{{ $transaksi->id }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5">Decline Transaksi</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form action="{{ route('transaksi.decline', $transaksi->id) }}" method="POST">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <p>Apakah Anda yakin ingin menolak transaksi ini?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger">Decline</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        {{-- add Modal Tambah --}}
-        <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">Tambah Katagori</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="" method="post">
-                        <div class="modal-body">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama Kategori</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="nama" id="nama" value="" autofocus required>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {{-- End Modal Tambah --}}
-
         @push('js')
-        <script>
-            document.querySelector('form').addEventListener('submit', function(event) {
-                var photosInput = document.getElementById('photos');
-                if (photosInput.files.length < 1 || photosInput.files.length > 5) {
-                    event.preventDefault();
-                    alert('Please upload between 1 and 5 photos.');
-                }
-            });
-        </script>
-    @endpush
-
-@endsection
+            <script>
+            </script>
+        @endpush
+    @endsection

@@ -27,7 +27,7 @@
                     <div class="col col-stats me-3">
                         <div class="numbers">
                             <p class="card-category">User</p>
-                            <h4 class="card-title">1,294</h4>
+                            <h4 class="card-title">{{ $userCount }}</h4>
                         </div>
                     </div>
                     <div class="col-icon">
@@ -44,7 +44,7 @@
                     <div class="col col-stats me-3">
                         <div class="numbers">
                             <p class="card-category">Transaksi</p>
-                            <h4 class="card-title">1,303</h4>
+                            <h4 class="card-title">{{ $transactionCount }}</h4>
                         </div>
                     </div>
                     <div class="col-icon">
@@ -61,7 +61,7 @@
                     <div class="col col-stats me-3">
                         <div class="numbers">
                             <p class="card-category">Aset</p>
-                            <h4 class="card-title">1,345</h4>
+                            <h4 class="card-title">{{ $assetCount }}</h4>
                         </div>
                     </div>
                     <div class="col-icon">

@@ -239,14 +239,3 @@
             </div>
         </div>
     @endsection
-    @push('js')
-        <script>
-            document.querySelector('form').addEventListener('submit', function(event) {
-                var photosInput = document.getElementById('photos');
-                if (photosInput.files.length < 1 || photosInput.files.length > 5) {
-                    event.preventDefault();
-                    alert('Please upload between 1 and 5 photos.');
-                }
-            });
-        </script>
-    @endpush

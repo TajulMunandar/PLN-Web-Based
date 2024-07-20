@@ -28,14 +28,14 @@ Route::get('', function () {
 });
 
 Route::prefix('/auth')->middleware('guest')->group(function () {
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'store']);
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/login', [LoginController::class, 'index'])->name('login.index');
+    Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 });
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-
     Route::get('/pages/aset', [AssetController::class, 'index'])->name('aset.index');
     Route::resource('pages/aset', AssetController::class)->except(['show']);
 
@@ -50,9 +50,9 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::resource('/pages/laporan', LaporanController::class);
 
     Route::get('/pages/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+    Route::post('/transaksi/{id}/approve', [TransaksiController::class, 'approve'])->name('transaksi.approve');
+    Route::post('/transaksi/{id}/decline', [TransaksiController::class, 'decline'])->name('transaksi.decline');
 
     Route::get('/pages/user', [UserController::class, 'index'])->name('user.index');
     Route::resource('pages/user', UserController::class)->except(['show']);
 });
-
-

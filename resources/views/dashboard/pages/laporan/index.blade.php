@@ -66,7 +66,15 @@
                                     <td>{{ $transaksi->start }}</td>
                                     <td>{{ $transaksi->end }}</td>
                                     <td><a href="{{ asset($transaksi->bukti) }}" target="_blank">Lihat Bukti</a></td>
-                                    <td>{{ $transaksi->approve ? 'Approved' : 'Pending' }}</td>
+                                    <td>
+                                        @if ($transaksi->approve == 0)
+                                            <span class="badge bg-warning">Pending</span>
+                                        @elseif ($transaksi->approve == 1)
+                                            <span class="badge bg-success">Disetujui</span>
+                                        @else
+                                            <span class="badge bg-danger">Ditolak</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $transaksi->ket }}</td>
                                     <td>Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
                                 </tr>

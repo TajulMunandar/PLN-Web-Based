@@ -1,5 +1,6 @@
-<header class="app-header" style="background-image: radial-gradient( circle farthest-corner at 92.3% 71.5%,  rgba(83,138,214,1) 0%, rgba(134,231,214,1) 90% );">
-    <nav class="navbar navbar-expand-lg " >
+<header class="app-header"
+    style="background-image: radial-gradient( circle farthest-corner at 92.3% 71.5%,  rgba(83,138,214,1) 0%, rgba(134,231,214,1) 90% );">
+    <nav class="navbar navbar-expand-lg ">
         <ul class="navbar-nav">
             <li class="nav-item d-block d-xl-none">
                 <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
@@ -14,8 +15,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('assets/images/profile/user-1.jpg')}}" alt="" width="35" height="35"
-                            class="rounded-circle">
+                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="" width="35"
+                            height="35" class="rounded-circle">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                         <div class="message-body">
@@ -31,8 +32,10 @@
                                 <i class="ti ti-list-check fs-6"></i>
                                 <p class="mb-0 fs-3">My Task</p>
                             </a>
-                            <a href="./authentication-login.html"
-                                class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                            <form action="{{ route('logout') }}" method="POST" class="mx-5 mt-2 d-block">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-primary">Logout</button>
+                            </form>
                         </div>
                     </div>
                 </li>

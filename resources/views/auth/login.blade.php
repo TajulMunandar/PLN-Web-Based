@@ -23,7 +23,7 @@
                                     <img src="{{ asset('assets/images/logos/dark-logo.svg') }}" width="180" alt="">
                                 </a>
                                 <p class="text-center">Login</p>
-                                <form action="{{ route('login') }}" method="post">
+                                <form action="{{ route('login.store') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Username</label>
