@@ -3,7 +3,7 @@
 @section('content')
     <!-- Breadcrumbs -->
     <!-- Page Title -->
-    <div data-aos="fade-down" data-aos-duration="1500">
+    <div data-aos="fade-down" data-aos-duration="1500" data-aos-once="true">
         <div class="row d-flex align-items-center">
             <div class="col">
                 <div class="page-title mb-4 pt-5">
@@ -37,7 +37,7 @@
         </div>
     @endif
 
-    <div data-aos="fade-up" data-aos-duration="1500">
+    <div data-aos="fade-up" data-aos-duration="1500" data-aos-once="true">
         <!-- Page Title -->
         <div class="container-fluid">
             <div class="card">
@@ -80,7 +80,7 @@
                                     </tr>
 
                                     <!-- Modal Edit -->
-                                    <div class="modal fade" id="editModal{{ $loop->iteration }}" tabindex="-1"
+                                    <div class="modal fade editModal" id="editModal{{ $loop->iteration }}" tabindex="-1"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -119,8 +119,8 @@
 
 
                                     <!-- Modal Hapus -->
-                                    <div class="modal fade" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
-                                        aria-hidden="true">
+                                    <div class="modal fade modalHapus" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
+                                        aria-hidden="true" data-aos="none">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -152,7 +152,7 @@
             </div>
 
             {{-- add Modal Tambah --}}
-            <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true" data-aos="none">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -182,14 +182,21 @@
     </div>
     {{-- End Modal Tambah --}}
 @endsection
+
 @push('js')
     <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            var photosInput = document.getElementById('photos');
-            if (photosInput.files.length < 1 || photosInput.files.length > 5) {
-                event.preventDefault();
-                alert('Please upload between 1 and 5 photos.');
-            }
+        $(document).ready(function() {
+            $('#tambahModal, .editModal, .modalHapus').on('show.bs.modal', function(e) {
+                AOS.init({
+                    disable: true
+                });
+            });
+
+            $('#tambahModal, .editModal, .modalHapus').on('hidden.bs.modal', function(e) {
+                AOS.init({
+                    disable: 'mobile'
+                });
+            });
         });
     </script>
 @endpush

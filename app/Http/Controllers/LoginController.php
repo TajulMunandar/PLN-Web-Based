@@ -29,19 +29,16 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->validate([
+            'name' => 'required',
+            'password' => 'required',
+        ]);
 
-        $user = User::where('name', $credentials['name'])->first();
-
-        if ($user && $user->password === $credentials['password'] && $user->isAdmin == 0) {
-            Auth::login($user);
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard.index');
+            return redirect()->intended(route('dashboard.index'));
         }
-
-        return back()->withErrors([
-            'name' => 'The provided credentials do not match our records or you are not authorized.',
-        ])->withInput($request->only('name'));
+        return back()->with('error', 'Username/Password salah!');
     }
 
     public function logout(Request $request)

@@ -5,6 +5,15 @@
     @include('dashboard.layouts.head')
     <title>Dashboard</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
+    <style>
+        .modal-backdrop {
+            z-index: 1040 !important;
+        }
+
+        .modal {
+            z-index: 1050 !important;
+        }
+    </style>
 </head>
 
 <body>
