@@ -41,10 +41,10 @@
 
     </div>
 
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <div data-aos="fade-down" data-aos-duration="1500">
+    <div data-aos="fade-down" data-aos-duration="1500">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
                     <h5 class="card-title fw-semibold mb-4">Table Foto Asset</h5>
 
                     <div class="container-fluid">
@@ -65,83 +65,84 @@
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <table id="myTable" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>Foto Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($photos as $photo)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#photoModal"
-                                            data-photo="{{ $photo->foto }}">
-                                            {{ $photo->foto }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalHapus{{ $loop->iteration }}">
-                                            <i class="ti ti-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
 
-                                <!-- Modal Hapus -->
-                                <div class="modal fade" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5">Hapus Foto Asset</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                    <div class="row">
+                        <table id="myTable" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>Foto Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($photos as $photo)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#photoModal"
+                                                data-photo="{{ $photo->foto }}">
+                                                {{ $photo->foto }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#modalHapus{{ $loop->iteration }}">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal Hapus -->
+                                    <div class="modal fade modalHapus" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5">Hapus Foto Asset</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('foto_asset.destroy', $photo->id) }}" method="post"
+                                                    id="deleteForm{{ $photo->id }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body">
+                                                        <p>Apakah Anda yakin ingin menghapus foto asset ini?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form action="{{ route('foto_asset.destroy', $photo->id) }}" method="post"
-                                                id="deleteForm{{ $photo->id }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <div class="modal-body">
-                                                    <p>Apakah Anda yakin ingin menghapus foto asset ini?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- Modal for displaying the image -->
-                <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="photoModalLabel">Photo</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <img id="photoImage" src="" alt="Photo" class="img-fluid">
+                    <!-- Modal for displaying the image -->
+                    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="photoModalLabel">Photo</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img id="photoImage" src="" alt="Photo" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 @endsection
@@ -162,22 +163,19 @@
             disable: 'mobile'
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#tambahModal, .editModal, .modalHapus').on('show.bs.modal', function(e) {
+                AOS.init({
+                    disable: true
+                });
+            });
+
+            $('#tambahModal, .editModal, .modalHapus').on('hidden.bs.modal', function(e) {
+                AOS.init({
+                    disable: 'mobile'
+                });
+            });
+        });
+    </script>
 @endpush
-
-<style>
-    /* Ensure modals have the correct z-index */
-    .modal {
-        z-index: 1050;
-    }
-
-    .modal-backdrop {
-        z-index: 1040;
-    }
-
-    /* Optional: Add custom styles for AOS */
-    [data-aos] {
-        position: relative;
-        z-index: 1000;
-        /* Adjust z-index if needed */
-    }
-</style>

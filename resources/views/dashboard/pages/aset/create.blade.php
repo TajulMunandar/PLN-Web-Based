@@ -258,4 +258,19 @@
             }
         });
     </script>
+    <script>
+            $(document).ready(function() {
+                $('#tambahModal, .editModal, .modalHapus').on('show.bs.modal', function(e) {
+                    AOS.init({
+                        disable: true
+                    });
+                });
+
+                $('#tambahModal, .editModal, .modalHapus').on('hidden.bs.modal', function(e) {
+                    AOS.init({
+                        disable: 'mobile'
+                    });
+                });
+            });
+        </script>
 @endpush
