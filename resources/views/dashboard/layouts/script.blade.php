@@ -1,4 +1,8 @@
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
 <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
+{{-- AOS Animate Js --}}
+
 {{-- datatables js --}}
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -17,3 +21,5 @@
 
 {{-- Font Awesome --}}
 <script src="https://kit.fontawesome.com/0735ededae.js" crossorigin="anonymous"></script>
+
+

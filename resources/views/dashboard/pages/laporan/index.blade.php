@@ -3,19 +3,21 @@
 @section('content')
     <!-- Breadcrumbs -->
     <!-- Page Title -->
-    <div class="row d-flex align-items-center">
-        <div class="col">
-            <div class="page-title mb-4 pt-5">
-                <h1 class="fw-bold">Laporan</h1>
+    <div data-aos="fade-down" data-aos-duration="1500">
+        <div class="row d-flex align-items-center">
+            <div class="col">
+                <div class="page-title mb-4 pt-5">
+                    <h1 class="fw-bold">Laporan</h1>
+                </div>
             </div>
-        </div>
-        <div class="col pt-4">
-            <nav aria-label="breadcrumb ">
-                <ol class="breadcrumb float-end">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Laporan</li>
-                </ol>
-            </nav>
+            <div class="col pt-4">
+                <nav aria-label="breadcrumb ">
+                    <ol class="breadcrumb float-end">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Laporan</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
 
@@ -36,51 +38,53 @@
     @endif
 
     <!-- Page Title -->
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Table Laporan</h5>
+    <div data-aos="fade-up" data-aos-duration="1500">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Table Laporan</h5>
 
-                <!--  Row 1 -->
-                <div class="row">
-                    <table id="myTable" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>ID Transaksi</th>
-                                <th>Nama Asset</th>
-                                <th>Nama User</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Bukti</th>
-                                <th>Status</th>
-                                <th>Keterangan</th>
-                                <th>Total Harga</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($transaksis as $transaksi)
+                    <!--  Row 1 -->
+                    <div class="row">
+                        <table id="myTable" class="table table-striped" style="width:100%">
+                            <thead>
                                 <tr>
-                                    <td>{{ $transaksi->id }}</td>
-                                    <td>{{ $transaksi->asset->nama }}</td>
-                                    <td>{{ $transaksi->user->name }}</td>
-                                    <td>{{ $transaksi->start }}</td>
-                                    <td>{{ $transaksi->end }}</td>
-                                    <td><a href="{{ asset($transaksi->bukti) }}" target="_blank">Lihat Bukti</a></td>
-                                    <td>
-                                        @if ($transaksi->approve == 0)
-                                            <span class="badge bg-warning">Pending</span>
-                                        @elseif ($transaksi->approve == 1)
-                                            <span class="badge bg-success">Disetujui</span>
-                                        @else
-                                            <span class="badge bg-danger">Ditolak</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $transaksi->ket }}</td>
-                                    <td>Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
+                                    <th>ID Transaksi</th>
+                                    <th>Nama Asset</th>
+                                    <th>Nama User</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Bukti</th>
+                                    <th>Status</th>
+                                    <th>Keterangan</th>
+                                    <th>Total Harga</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($transaksis as $transaksi)
+                                    <tr>
+                                        <td>{{ $transaksi->id }}</td>
+                                        <td>{{ $transaksi->asset->nama }}</td>
+                                        <td>{{ $transaksi->user->name }}</td>
+                                        <td>{{ $transaksi->start }}</td>
+                                        <td>{{ $transaksi->end }}</td>
+                                        <td><a href="{{ asset($transaksi->bukti) }}" target="_blank">Lihat Bukti</a></td>
+                                        <td>
+                                            @if ($transaksi->approve == 0)
+                                                <span class="badge bg-warning">Pending</span>
+                                            @elseif ($transaksi->approve == 1)
+                                                <span class="badge bg-success">Disetujui</span>
+                                            @else
+                                                <span class="badge bg-danger">Ditolak</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $transaksi->ket }}</td>
+                                        <td>Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

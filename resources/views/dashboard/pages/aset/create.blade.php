@@ -74,19 +74,21 @@
     </style>
 
     <!-- Breadcrumbs -->
-    <div class="row d-flex align-items-center">
-        <div class="col">
-            <div class="page-title mb-4 pt-5">
-                <h1 class="fw-bold">Tambah Asset</h1>
+    <div data-aos="fade-down" data-aos-duration="1500">
+        <div class="row d-flex align-items-center">
+            <div class="col">
+                <div class="page-title mb-4 pt-5">
+                    <h1 class="fw-bold">Tambah Asset</h1>
+                </div>
             </div>
-        </div>
-        <div class="col pt-4">
-            <nav aria-label="breadcrumb ">
-                <ol class="breadcrumb float-end">
-                    <li class="breadcrumb-item"><a href="{{ route('aset.index') }}">Asset</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tambah Asset</li>
-                </ol>
-            </nav>
+            <div class="col pt-4">
+                <nav aria-label="breadcrumb ">
+                    <ol class="breadcrumb float-end">
+                        <li class="breadcrumb-item"><a href="{{ route('aset.index') }}">Asset</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Asset</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
 
@@ -107,75 +109,78 @@
     @endif
 
     <!-- Forms Section -->
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Tambah Asset</h5>
+    <div data-aos="fade-right" data-aos-duration="1500">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Tambah Asset</h5>
+                    <form id="combinedForm" action="{{ route('aset.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
-                <form id="combinedForm" action="{{ route('aset.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-
-                    <div class="row">
-                        <!-- Asset Details Form -->
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="nama">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="id_kategori" class="form-label">Kategori</label>
-                                <select class="form-control @error('id_kategori') is-invalid @enderror" name="id_kategori"
-                                    id="id_kategori" required>
-                                    <option value="">Pilih Kategori</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->kategori }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="harga" class="form-label">Harga</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">Rp</span>
-                                    <input type="text" class="form-control @error('harga') is-invalid @enderror"
-                                        name="harga" id="harga" required>
+                        <div class="row">
+                            <!-- Asset Details Form -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="nama">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required>
                                 </div>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="alamat">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="kabupaten">Kabupaten</label>
-                                <input type="text" class="form-control" id="kabupaten" name="kabupaten" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="jangka_sewa">Jangka Sewa</label>
-                                <input type="text" class="form-control" id="jangka_sewa" name="jangka_sewa" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="lokasi">Lokasi</label>
-                                <input type="text" class="form-control" id="lokasi" name="lokasi" required>
-                            </div>
-                        </div>
-
-                        <!-- Image Upload Form -->
-                        <div class="col-md-6 pt-4">
-                            <div class="card shadow-sm rounded">
-                                <div class="card-header text-white rounded-top" style="background-image: radial-gradient( circle farthest-corner at 92.3% 71.5%,  rgba(83,138,214,1) 0%, rgba(134,231,214,1) 90% )">
-                                    <h5 class="mb-0">Upload Gambar</h5>
+                                <div class="mb-3">
+                                    <label for="id_kategori" class="form-label">Kategori</label>
+                                    <select class="form-control @error('id_kategori') is-invalid @enderror"
+                                        name="id_kategori" id="id_kategori" required>
+                                        <option value="">Pilih Kategori</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->kategori }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="card-body">
-                                    <div id="dropZone" class="drop-zone mb-3">
-                                        <p>Drag & Drop images here or click to upload</p>
+                                <div class="mb-3">
+                                    <label for="harga" class="form-label">Harga</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="text" class="form-control @error('harga') is-invalid @enderror"
+                                            name="harga" id="harga" required>
                                     </div>
-                                    <div id="imagePreview" class="row mb-3"></div>
-                                    <input type="file" id="imageInput" name="images[]" multiple style="display:none;">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="alamat">Alamat</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="kabupaten">Kabupaten</label>
+                                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="jangka_sewa">Jangka Sewa</label>
+                                    <input type="text" class="form-control" id="jangka_sewa" name="jangka_sewa" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="lokasi">Lokasi</label>
+                                    <input type="text" class="form-control" id="lokasi" name="lokasi" required>
+                                </div>
+                            </div>
+
+                            <!-- Image Upload Form -->
+                            <div class="col-md-6 pt-4">
+                                <div class="card shadow-sm rounded">
+                                    <div class="card-header text-white rounded-top"
+                                        style="background-image: radial-gradient( circle farthest-corner at 92.3% 71.5%,  rgba(83,138,214,1) 0%, rgba(134,231,214,1) 90% )">
+                                        <h5 class="mb-0">Upload Gambar</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="dropZone" class="drop-zone mb-3">
+                                            <p>Drag & Drop images here or click to upload</p>
+                                        </div>
+                                        <div id="imagePreview" class="row mb-3"></div>
+                                        <input type="file" id="imageInput" name="images[]" multiple
+                                            style="display:none;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

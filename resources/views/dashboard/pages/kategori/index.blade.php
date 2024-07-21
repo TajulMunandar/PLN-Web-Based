@@ -3,19 +3,21 @@
 @section('content')
     <!-- Breadcrumbs -->
     <!-- Page Title -->
-    <div class="row d-flex align-items-center">
-        <div class="col">
-            <div class="page-title mb-4 pt-5">
-                <h1 class="fw-bold">Kategori</h1>
+    <div data-aos="fade-down" data-aos-duration="1500">
+        <div class="row d-flex align-items-center">
+            <div class="col">
+                <div class="page-title mb-4 pt-5">
+                    <h1 class="fw-bold">Kategori</h1>
+                </div>
             </div>
-        </div>
-        <div class="col pt-4">
-            <nav aria-label="breadcrumb ">
-                <ol class="breadcrumb float-end">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Kategori</li>
-                </ol>
-            </nav>
+            <div class="col pt-4">
+                <nav aria-label="breadcrumb ">
+                    <ol class="breadcrumb float-end">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Kategori</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
 
@@ -34,154 +36,160 @@
             </ul>
         </div>
     @endif
-    <!-- Page Title -->
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Table Kategori</h5>
 
-                <!--  Row 1 -->
-                <div class="row">
-                    <div class="col">
-                        <button class="btn btn-primary mb-3 p-10" type="button" data-bs-toggle="modal"
-                            data-bs-target="#tambahModal">
-                            <i class="ti ti-plus fs-3 me-1"></i>Tambah
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <table id="myTable" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>KATEGORI</th>
-                                <th>ACTION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($katagoris as $kategori)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $kategori->kategori }}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editModal{{ $loop->iteration }}">
-                                            <i class="ti ti-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalHapus{{ $loop->iteration }}">
-                                            <i class="ti ti-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+    <div data-aos="fade-up" data-aos-duration="1500">
+        <!-- Page Title -->
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Table Kategori</h5>
 
-                                <!-- Modal Edit -->
-                                <div class="modal fade" id="editModal{{ $loop->iteration }}" tabindex="-1"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5">Edit Kategori</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <form action="{{ route('kategori.update', $kategori->id) }}" method="post">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="kategori" class="form-label">Nama Kategori</label>
-                                                        <input type="text"
-                                                            class="form-control @error('kategori') is-invalid @enderror"
-                                                            name="kategori" id="kategori"
-                                                            value="{{ old('kategori', $kategori->kategori) }}" autofocus
-                                                            required>
-                                                        @error('kategori')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Edit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Modal Hapus -->
-                                <div class="modal fade" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5">Hapus Kategori</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <form action="{{ route('kategori.destroy', $kategori->id) }}" method="post"
-                                                id="deleteForm">
-                                                @csrf
-                                                @method('DELETE')
-                                                <div class="modal-body">
-                                                    <p>Apakah Anda yakin ingin menghapus Kategori ini?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        {{-- add Modal Tambah --}}
-        <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5">Tambah Katagori</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('kategori.store') }}" method="post">
-                        <div class="modal-body">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="kategori" class="form-label">Nama Kategori</label>
-                                <input type="text" class="form-control @error('kategori') is-invalid @enderror"
-                                    name="kategori" id="kategori" value="" autofocus required>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </div>
+                    <!--  Row 1 -->
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-primary mb-3 p-10" type="button" data-bs-toggle="modal"
+                                data-bs-target="#tambahModal">
+                                <i class="ti ti-plus fs-3 me-1"></i>Tambah
+                            </button>
                         </div>
-                    </form>
+                    </div>
+                    <div class="row">
+                        <table id="myTable" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>KATEGORI</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($katagoris as $kategori)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $kategori->kategori }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $loop->iteration }}">
+                                                <i class="ti ti-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#modalHapus{{ $loop->iteration }}">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="editModal{{ $loop->iteration }}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5">Edit Kategori</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('kategori.update', $kategori->id) }}" method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="kategori" class="form-label">Nama Kategori</label>
+                                                            <input type="text"
+                                                                class="form-control @error('kategori') is-invalid @enderror"
+                                                                name="kategori" id="kategori"
+                                                                value="{{ old('kategori', $kategori->kategori) }}" autofocus
+                                                                required>
+                                                            @error('kategori')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Modal Hapus -->
+                                    <div class="modal fade" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5">Hapus Kategori</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('kategori.destroy', $kategori->id) }}"
+                                                    method="post" id="deleteForm">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body">
+                                                        <p>Apakah Anda yakin ingin menghapus Kategori ini?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            {{-- add Modal Tambah --}}
+            <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Tambah Katagori</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('kategori.store') }}" method="post">
+                            <div class="modal-body">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="kategori" class="form-label">Nama Kategori</label>
+                                    <input type="text" class="form-control @error('kategori') is-invalid @enderror"
+                                        name="kategori" id="kategori" value="" autofocus required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        {{-- End Modal Tambah --}}
-    @endsection
-    @push('js')
-        <script>
-            document.querySelector('form').addEventListener('submit', function(event) {
-                var photosInput = document.getElementById('photos');
-                if (photosInput.files.length < 1 || photosInput.files.length > 5) {
-                    event.preventDefault();
-                    alert('Please upload between 1 and 5 photos.');
-                }
-            });
-        </script>
-    @endpush
+    </div>
+    {{-- End Modal Tambah --}}
+@endsection
+@push('js')
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            var photosInput = document.getElementById('photos');
+            if (photosInput.files.length < 1 || photosInput.files.length > 5) {
+                event.preventDefault();
+                alert('Please upload between 1 and 5 photos.');
+            }
+        });
+    </script>
+@endpush
