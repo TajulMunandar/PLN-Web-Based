@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LaporanController extends Controller
 {
@@ -12,8 +14,17 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $transaksis = Transaksi::with(['asset', 'user'])->get();
-        return view('dashboard.pages.laporan.index', compact('transaksis'));
+        try {
+            // Fetch transactions with 'approve' value of 1 or 2, excluding 0
+            $transaksis = Transaksi::with(['asset', 'user'])
+                ->whereIn('approve', [1, 2])
+                ->get();
+
+            return view('dashboard.pages.laporan.index', compact('transaksis'));
+        } catch (Exception $e) {
+            Log::error("Error fetching transactions: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to load transactions.');
+        }
     }
 
 

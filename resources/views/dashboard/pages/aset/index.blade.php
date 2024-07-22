@@ -21,21 +21,30 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    <div data-aos="fade-down" data-aos-duration="1500">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+    
     <!-- Page Title -->
     <div data-aos="fade-up" data-aos-duration="1500">
         <div class="container-fluid">
@@ -215,8 +224,8 @@
                                     </div>
 
                                     <!-- Modal Hapus -->
-                                    <div class="modal fade modalHapus" id="modalHapus{{ $loop->iteration }}" tabindex="-1"
-                                        aria-hidden="true">
+                                    <div class="modal fade modalHapus" id="modalHapus{{ $loop->iteration }}"
+                                        tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -246,22 +255,23 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @push('js')
-        <script>
-            $(document).ready(function() {
-                $('#tambahModal, .editModal, .modalHapus').on('show.bs.modal', function(e) {
-                    AOS.init({
-                        disable: true
-                    });
-                });
-
-                $('#tambahModal, .editModal, .modalHapus').on('hidden.bs.modal', function(e) {
-                    AOS.init({
-                        disable: 'mobile'
-                    });
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#tambahModal, .editModal, .modalHapus').on('show.bs.modal', function(e) {
+                AOS.init({
+                    disable: true
                 });
             });
-        </script>
-    @endpush
+
+            $('#tambahModal, .editModal, .modalHapus').on('hidden.bs.modal', function(e) {
+                AOS.init({
+                    disable: 'mobile'
+                });
+            });
+        });
+    </script>
+@endpush

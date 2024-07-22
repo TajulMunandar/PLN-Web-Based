@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\AssetApiController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\RiwayatUserApiController;
+use App\Http\Controllers\API\TransaksiApiController;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/login', [AuthController::class, 'authenticate']);
+
+Route::get('/aset', [AssetApiController::class, 'getAssets']);
+
+Route::post('/transaksi', [TransaksiApiController::class, 'store']);
+
+Route::get('/transaksi', [RiwayatUserApiController::class, 'showRiwayatUser']);
+

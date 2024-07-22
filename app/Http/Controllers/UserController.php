@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Nette\Utils\Validators;
 
 class UserController extends Controller
 {
@@ -14,8 +13,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('dashboard.pages.user.index', compact('users'));
+        try {
+            $users = User::all();
+            return view('dashboard.pages.user.index', compact('users'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while fetching users: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -23,7 +26,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            return view('dashboard.pages.user.create');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while showing the create form: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -31,39 +38,45 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the incoming request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
-            'no_hp' => 'required|string|max:15',
-            'instansi' => 'nullable|string|max:255',
-            'isAdmin' => 'required|boolean',
-        ]);
+        try {
+            // Validate the incoming request
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:8',
+                'no_hp' => 'required|string|max:15',
+                'instansi' => 'nullable|string|max:255',
+                'isAdmin' => 'required|boolean',
+            ]);
 
-        // Create a new user
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'no_hp' => $validated['no_hp'],
-            'instansi' => $validated['instansi'],
-            'isAdmin' => $validated['isAdmin'],
-        ]);
+            // Create a new user
+            User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'no_hp' => $validated['no_hp'],
+                'instansi' => $validated['instansi'],
+                'isAdmin' => $validated['isAdmin'],
+            ]);
 
-        // Redirect with success message
-        return redirect()->route('user.index')->with('success', 'User successfully created.');
+            // Redirect with success message
+            return redirect()->route('user.index')->with('success', 'User successfully created.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while creating the user: ' . $e->getMessage());
+        }
     }
-
-
-
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            return view('dashboard.pages.user.show', compact('user'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while fetching the user: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -71,46 +84,60 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            return view('dashboard.pages.user.edit', compact('user'));
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while fetching the user for edit: ' . $e->getMessage());
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'nullable|string|min:6',
-            'no_hp' => 'required|string|max:20',
-            'instansi' => 'required|string|max:255',
-            'isAdmin' => 'required|boolean',
-        ]);
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'password' => 'nullable|string|min:6',
+                'no_hp' => 'required|string|max:20',
+                'instansi' => 'required|string|max:255',
+                'isAdmin' => 'required|boolean',
+            ]);
 
-        $user = User::findOrFail($id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
+            $user = User::findOrFail($id);
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            if ($request->filled('password')) {
+                $user->password = Hash::make($validated['password']);
+            }
+            $user->no_hp = $validated['no_hp'];
+            $user->instansi = $validated['instansi'];
+            $user->isAdmin = $validated['isAdmin'];
+            $user->save();
+
+            return redirect()->route('user.index')->with('success', 'User updated successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while updating the user: ' . $e->getMessage());
         }
-        $user->no_hp = $request->input('no_hp');
-        $user->instansi = $request->input('instansi');
-        $user->isAdmin = $request->input('isAdmin');
-        $user->save();
-
-        return redirect()->route('user.index')->with('success', 'User updated successfully.');
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
 
-        return redirect()->route('user.index')->with('success', 'User deleted successfully.');
+            return redirect()->route('user.index')->with('success', 'User deleted successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return back()->with('error', 'The user has related assets or transactions and cannot be deleted.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while deleting the user: ' . $e->getMessage());
+        }
     }
 }

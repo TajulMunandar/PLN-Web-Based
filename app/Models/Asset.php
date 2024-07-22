@@ -9,8 +9,6 @@ class Asset extends Model
 {
     use HasFactory;
 
-    protected $table = 'assets';
-
     protected $guarded = ['id'];
 
     public function kategori()

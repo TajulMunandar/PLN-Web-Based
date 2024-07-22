@@ -21,21 +21,29 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    <div data-aos="fade-down" data-aos-duration="1500">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
 
     <div data-aos="fade-up" data-aos-duration="1500">
         <!-- Page Title -->
@@ -71,11 +79,11 @@
                                         <td>{{ $transaksi->bukti }}</td>
                                         <td>
                                             @if ($transaksi->approve == 0)
-                                                Pending
+                                                <span class="badge bg-warning">Pending</span>
                                             @elseif ($transaksi->approve == 1)
-                                                Disetujui
+                                                <span class="badge bg-success">Disetujui</span>
                                             @else
-                                                Ditolak
+                                                <span class="badge bg-danger">Ditolak</span>
                                             @endif
                                         </td>
                                         <td>{{ $transaksi->ket }}</td>
@@ -93,7 +101,7 @@
                                     </tr>
 
                                     <!-- Modal Approve -->
-                                    <div class="modal fade" id="approveModal{{ $transaksi->id }}" tabindex="-1"
+                                    <div class="modal fade modalApprove" id="approveModal{{ $transaksi->id }}" tabindex="-1"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -119,7 +127,7 @@
                                     </div>
 
                                     <!-- Modal Decline -->
-                                    <div class="modal fade" id="declineModal{{ $transaksi->id }}" tabindex="-1"
+                                    <div class="modal fade modalDecline" id="declineModal{{ $transaksi->id }}" tabindex="-1"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -150,9 +158,22 @@
                 </div>
             </div>
         </div>
+    </div>
+@endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('.modalApprove, .modalDecline').on('show.bs.modal', function(e) {
+                AOS.init({
+                    disable: true
+                });
+            });
 
-
-        @push('js')
-            <script></script>
-        @endpush
-    @endsection
+            $('.modalApprove, .modalDecline').on('hidden.bs.modal', function(e) {
+                AOS.init({
+                    disable: 'mobile'
+                });
+            });
+        });
+    </script>
+@endpush

@@ -21,23 +21,29 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    <div data-aos="fade-down" data-aos-duration="1500">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <!-- Page Title -->
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
 
     </div>
 
@@ -155,7 +161,7 @@
                 let link = event.relatedTarget;
                 let photoName = link.getAttribute('data-photo');
                 let photoImage = document.getElementById('photoImage');
-                photoImage.src = '/uploads/foto_asset/' + photoName;
+                photoImage.src = '/storage/foto_asset/' + photoName;
             });
         });
 

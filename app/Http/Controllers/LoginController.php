@@ -29,17 +29,23 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        $credentials = $request->validate([
-            'name' => 'required',
-            'password' => 'required',
-        ]);
+        try {
+            $credentials = $request->validate([
+                'name' => 'required',
+                'password' => 'required',
+            ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('dashboard.index'));
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return redirect()->intended(route('dashboard.index'))->with('success', 'Login berhasil!');
+            }
+
+            return back()->with('error', 'Username/Password salah!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-        return back()->with('error', 'Username/Password salah!');
     }
+
 
     public function logout(Request $request)
     {
